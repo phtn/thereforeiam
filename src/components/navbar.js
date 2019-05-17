@@ -11,7 +11,7 @@ function Navbar() {
   const [logoLoc, setLogoLoc] = React.useState(20);
   const [burgerLoc, setBurgerLoc] = React.useState(deviceWidth - 70);
   const [burgerX, setBurgerX] = React.useState(1);
-  const [switchRotation, setSwitchRotation] = React.useState(90);
+  const [switchRotation, setSwitchRotation] = React.useState(1);
   const [logoOneDeg, setLogoOneDeg] = React.useState(35);
   const [logoTwoDeg, setLogoTwoDeg] = React.useState(90);
   const [logoThreeDeg, setLogoThreeDeg] = React.useState(145);
@@ -25,7 +25,7 @@ function Navbar() {
     left: burgerLoc,
     transform: `scaleX(${burgerX})`
   });
-  const switchProps = useSpring({ transform: `rotate(${switchRotation}deg)` });
+  const switchProps = useSpring({ transform: `rotate(90deg) scaleY(${switchRotation})` });
   const innerProps = useSpring({ transform: `rotate(${inner}deg)` });
   const iconColor = useSpring({ fill: moonColor });
   const navProps = useSpring({ backgroundColor: navBg });
@@ -57,7 +57,7 @@ function Navbar() {
       setLogoTwoDeg(logoTwoDeg + 180);
       setLogoThreeDeg(logoThreeDeg + 180);
       setLogoAngle(logoAngle + 360);
-      setSwitchRotation(switchRotation + 180);
+      setSwitchRotation(-1);
       setBurgerX(-1);
     } else {
       setLogoLoc(20);
@@ -66,7 +66,7 @@ function Navbar() {
       setLogoTwoDeg(logoTwoDeg + 180);
       setLogoThreeDeg(logoThreeDeg + 180);
       setLogoAngle(logoAngle - 360);
-      setSwitchRotation(switchRotation - 180);
+      setSwitchRotation(1);
       setBurgerX(1);
     }
   };

@@ -48,6 +48,7 @@ export const SwitchIcon = props => {
           left: props.dw - 120,
           top: 38,
           cursor: "pointer",
+          transform: 'rotate(90deg)',
           ...props.switchProps
         })}
       >

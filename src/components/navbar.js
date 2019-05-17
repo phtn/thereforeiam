@@ -3,24 +3,14 @@ import React from "react";
 import { useSpring, animated, useTrail } from "react-spring";
 import { SwitchIcon, MoonIcon, Ovaltine, HexIcon, MenuIcon } from "./icons";
 
-const styles = {
-  container: {
-    // backgroundColor: "slategray",
-    height: 100
-  },
-  items: {
-    position: "absolute"
-  },
-  oval: {
-    position: "absolute"
-  }
-};
+
+
 function Navbar() {
   const [deviceWidth, setWidth] = React.useState(window.innerWidth);
   const [navBg, setNavBg] = React.useState("slategray");
   const [logoLoc, setLogoLoc] = React.useState(20);
   const [burgerLoc, setBurgerLoc] = React.useState(deviceWidth - 70);
-  const [burgerX, setBurgerX] = React.useState(1)
+  const [burgerX, setBurgerX] = React.useState(1);
   const [switchRotation, setSwitchRotation] = React.useState(90);
   const [logoOneDeg, setLogoOneDeg] = React.useState(35);
   const [logoTwoDeg, setLogoTwoDeg] = React.useState(90);
@@ -28,15 +18,18 @@ function Navbar() {
   const [logoAngle, setLogoAngle] = React.useState(0);
   const [inner, setInner] = React.useState(60);
   const [moonColor, setMoonColor] = React.useState("#333");
-  const [hexColor, setHexColor] = React.useState('aliceblue')
+  const [hexColor, setHexColor] = React.useState("aliceblue");
 
   const logoProps = useSpring({ left: logoLoc });
-  const burgerProps = useSpring({ left: burgerLoc, transform: `scaleX(${burgerX})` });
+  const burgerProps = useSpring({
+    left: burgerLoc,
+    transform: `scaleX(${burgerX})`
+  });
   const switchProps = useSpring({ transform: `rotate(${switchRotation}deg)` });
   const innerProps = useSpring({ transform: `rotate(${inner}deg)` });
   const iconColor = useSpring({ fill: moonColor });
   const navProps = useSpring({ backgroundColor: navBg });
-  const hexColorProps = useSpring({ fill: hexColor})
+  const hexColorProps = useSpring({ fill: hexColor });
 
   const logoItems = [Ovaltine, Ovaltine, Ovaltine];
   const config = { mass: 5, tension: 2000, friction: 200 };
@@ -56,18 +49,16 @@ function Navbar() {
     return () => window.removeEventListener("resize", handleWidth);
   }, []);
 
-
   const handleChangeLocation = w => {
-    // return logoLoc === 0 ? setLogoLoc(width - 75) : setLogoLoc(0);
     if (logoLoc === 20) {
       setLogoLoc(w - 75);
-      setBurgerLoc(20);
+      setBurgerLoc(25);
       setLogoOneDeg(logoOneDeg + 180);
       setLogoTwoDeg(logoTwoDeg + 180);
       setLogoThreeDeg(logoThreeDeg + 180);
       setLogoAngle(logoAngle + 360);
       setSwitchRotation(switchRotation + 180);
-      setBurgerX(-1)
+      setBurgerX(-1);
     } else {
       setLogoLoc(20);
       setBurgerLoc(w - 70);
@@ -76,7 +67,7 @@ function Navbar() {
       setLogoThreeDeg(logoThreeDeg + 180);
       setLogoAngle(logoAngle - 360);
       setSwitchRotation(switchRotation - 180);
-      setBurgerX(1)
+      setBurgerX(1);
     }
   };
 
@@ -84,16 +75,15 @@ function Navbar() {
     if (moonColor === "#333") {
       setMoonColor("#eee");
       setNavBg("#333");
-      setHexColor("dodgerblue")
-      setInner(v => v + 180)
+      setHexColor("dodgerblue");
+      setInner(v => v + 180);
       // setLogoTwoDeg(v => v + 360)
     } else {
       setMoonColor("#333");
       setNavBg("slategray");
-      setHexColor('aliceblue')
-      setInner(v => v - 180)
+      setHexColor("aliceblue");
+      setInner(v => v - 180);
     }
-    // console.log(moonColor)
   };
 
   const handleRotation = index => {
@@ -110,13 +100,14 @@ function Navbar() {
   };
 
   return (
-    <animated.div
-      style={Object.assign({}, styles.container, {
+    <animated.div // CONTAINER
+      style={Object.assign({}, {
         ...navProps,
+        height: 100,
         width: deviceWidth
       })}
     >
-      <SwitchIcon
+      <SwitchIcon // SWITCH
         height={20}
         width={20}
         dw={deviceWidth}
@@ -125,7 +116,7 @@ function Navbar() {
         switchProps={switchProps}
       />
 
-      <MoonIcon
+      <MoonIcon // MOON
         height={20}
         width={20}
         dw={deviceWidth}
@@ -133,12 +124,15 @@ function Navbar() {
         click={handleToggleTheme}
       />
 
-
-
-      <MenuIcon burgerProps={burgerProps} iconColor={iconColor} height={40} width={40} />
+      <MenuIcon // MENU
+        burgerProps={burgerProps}
+        iconColor={iconColor}
+        height={40}
+        width={40}
+      />
 
       <animated.div // LOGO
-        style={Object.assign({}, styles.items, { ...logoProps, top: 25 })}
+        style={Object.assign({}, { ...logoProps, top: 25, position: 'absolute' })}
       >
         {trail.map(({ opacity }, index) => (
           <Ovaltine
@@ -151,9 +145,12 @@ function Navbar() {
           />
         ))}
 
-
-        <HexIcon height={15} width={15} innerProps={innerProps} iconColor={hexColorProps} />
-
+        <HexIcon // HEX
+          height={15}
+          width={15}
+          innerProps={innerProps}
+          iconColor={hexColorProps}
+        />
       </animated.div>
 
       <div
@@ -170,7 +167,7 @@ function Navbar() {
             top: window.innerHeight - 100
           }}
         >
-          <code>v1.0 </code>
+          <code>{`v1.0`}</code>
         </p>
       </div>
     </animated.div>

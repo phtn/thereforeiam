@@ -1,6 +1,4 @@
 import React from "react";
-import Burger from "../assets/burger.svg";
-import Hex from "../assets/hexagons.svg";
 
 import { useSpring, animated, useTrail } from "react-spring";
 import { SwitchIcon, MoonIcon, Ovaltine, HexIcon, MenuIcon } from "./icons";
@@ -22,6 +20,7 @@ function Navbar() {
   const [navBg, setNavBg] = React.useState("slategray");
   const [logoLoc, setLogoLoc] = React.useState(20);
   const [burgerLoc, setBurgerLoc] = React.useState(deviceWidth - 70);
+  const [burgerX, setBurgerX] = React.useState(1)
   const [switchRotation, setSwitchRotation] = React.useState(90);
   const [logoOneDeg, setLogoOneDeg] = React.useState(35);
   const [logoTwoDeg, setLogoTwoDeg] = React.useState(90);
@@ -32,14 +31,12 @@ function Navbar() {
   const [hexColor, setHexColor] = React.useState('aliceblue')
 
   const logoProps = useSpring({ left: logoLoc });
-  const burgerProps = useSpring({ left: burgerLoc });
+  const burgerProps = useSpring({ left: burgerLoc, transform: `scaleX(${burgerX})` });
   const switchProps = useSpring({ transform: `rotate(${switchRotation}deg)` });
-  // const logoRotationProps = useSpring({ transform: `rotate(${logoAngle}deg)` });
   const innerProps = useSpring({ transform: `rotate(${inner}deg)` });
   const iconColor = useSpring({ fill: moonColor });
   const navProps = useSpring({ backgroundColor: navBg });
   const hexColorProps = useSpring({ fill: hexColor})
-  const logoOneProps = useSpring({ transform: `rotate(${logoOneDeg}deg)`})
 
   const logoItems = [Ovaltine, Ovaltine, Ovaltine];
   const config = { mass: 5, tension: 2000, friction: 200 };
@@ -70,6 +67,7 @@ function Navbar() {
       setLogoThreeDeg(logoThreeDeg + 180);
       setLogoAngle(logoAngle + 360);
       setSwitchRotation(switchRotation + 180);
+      setBurgerX(-1)
     } else {
       setLogoLoc(20);
       setBurgerLoc(w - 70);
@@ -78,6 +76,7 @@ function Navbar() {
       setLogoThreeDeg(logoThreeDeg + 180);
       setLogoAngle(logoAngle - 360);
       setSwitchRotation(switchRotation - 180);
+      setBurgerX(1)
     }
   };
 

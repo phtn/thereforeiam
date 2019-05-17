@@ -235,9 +235,9 @@ export const MenuIcon = props => {
         style={Object.assign({}, {
           ...props.burgerProps,
           position: 'absolute',
-          top: 30,
+          top: 28,
           cursor: "pointer",
-          
+          // transform: `scaleX(-1)`
         })}
       >
         <g>

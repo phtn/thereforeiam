@@ -7,7 +7,7 @@ const styles = {
     display: 'flex',
     // alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#ccc'
+    backgroundColor: '#eee'
   },
   header: {
     textAlign: 'center',

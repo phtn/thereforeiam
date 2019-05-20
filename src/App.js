@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import Navbar from './components/navbar'
 
+const HEIGHT = window.innerHeight
+const WIDTH = window.innerWidth
+
 const styles = {
   container: {
     height: '100vh',
@@ -21,7 +24,7 @@ class App extends Component {
   render() {
     return (
       <div style={styles.container}>
-          <Navbar />
+          <Navbar width={WIDTH} height={HEIGHT} />
       </div>
     );
   }

@@ -1,15 +1,14 @@
 import React from "react";
 
 import { useSpring, animated, useTrail } from "react-spring";
-import { SwitchIcon, MoonIcon, Ovaltine, HexIcon, MenuIcon } from "./icons";
+import { SwitchIcon, MoonIcon, Astronaut, MenuIcon, Sputnik } from "./icons";
 
-
-
-function Navbar() {
-  const [deviceWidth, setWidth] = React.useState(window.innerWidth);
-  const [navBg, setNavBg] = React.useState("slategray");
+function Navbar(props) {
+  const { width, height } = props;
+  const [deviceWidth, setWidth] = React.useState(width);
+  const [navBg, setNavBg] = React.useState("mintcream");
   const [logoLoc, setLogoLoc] = React.useState(20);
-  const [burgerLoc, setBurgerLoc] = React.useState(deviceWidth - 70);
+  const [burgerLoc, setBurgerLoc] = React.useState(width - 70);
   const [burgerX, setBurgerX] = React.useState(1);
   const [switchRotation, setSwitchRotation] = React.useState(1);
   const [logoOneDeg, setLogoOneDeg] = React.useState(35);
@@ -17,21 +16,27 @@ function Navbar() {
   const [logoThreeDeg, setLogoThreeDeg] = React.useState(145);
   const [logoAngle, setLogoAngle] = React.useState(0);
   const [inner, setInner] = React.useState(60);
-  const [moonColor, setMoonColor] = React.useState("#333");
-  const [hexColor, setHexColor] = React.useState("aliceblue");
+  const [moonColor, setMoonColor] = React.useState("dodgerblue");
+  const [hexColor, setHexColor] = React.useState("lightgray");
 
-  const logoProps = useSpring({ left: logoLoc });
-  const burgerProps = useSpring({
-    left: burgerLoc,
-    transform: `scaleX(${burgerX})`
+  const logoProps = useSpring({
+    left: logoLoc !== 20 ? deviceWidth - 65 : 20,
+    transform: logoLoc !== 20 ? `rotate(420deg)` : `rotate(0deg)`
   });
-  const switchProps = useSpring({ transform: `rotate(90deg) scaleY(${switchRotation})` });
-  const innerProps = useSpring({ transform: `rotate(${inner}deg)` });
+  const burgerProps = useSpring({
+    // left: burgerLoc,
+    left: logoLoc !== 20 ? 20 : deviceWidth - 65,
+    transform: logoLoc !== 20 ? `rotate(-420deg)` : `rotate(-15deg)`
+  });
+  const switchProps = useSpring({
+    transform: `rotate(90deg) scaleY(${switchRotation})`
+  });
+  // const innerProps = useSpring({ transform: `rotate(${inner}deg)` });
   const iconColor = useSpring({ fill: moonColor });
   const navProps = useSpring({ backgroundColor: navBg });
-  const hexColorProps = useSpring({ fill: hexColor });
+  // const hexColorProps = useSpring({ fill: hexColor });
 
-  const logoItems = [Ovaltine, Ovaltine, Ovaltine];
+  const logoItems = [Astronaut];
   const config = { mass: 5, tension: 2000, friction: 200 };
   const trail = useTrail(logoItems.length, {
     config,
@@ -49,19 +54,23 @@ function Navbar() {
     return () => window.removeEventListener("resize", handleWidth);
   }, []);
 
+  const checkWindowSize = w => {
+    console.log(w);
+  };
+
   const handleChangeLocation = w => {
     if (logoLoc === 20) {
       setLogoLoc(w - 75);
       setBurgerLoc(25);
-      setLogoOneDeg(logoOneDeg + 180);
-      setLogoTwoDeg(logoTwoDeg + 180);
-      setLogoThreeDeg(logoThreeDeg + 180);
+      // setLogoOneDeg(logoOneDeg + 180);
+      // setLogoTwoDeg(logoTwoDeg + 180);
+      // setLogoThreeDeg(logoThreeDeg + 180);
       setLogoAngle(logoAngle + 360);
       setSwitchRotation(-1);
       setBurgerX(-1);
     } else {
       setLogoLoc(20);
-      setBurgerLoc(w - 70);
+      setBurgerLoc(0);
       setLogoOneDeg(logoOneDeg + 180);
       setLogoTwoDeg(logoTwoDeg + 180);
       setLogoThreeDeg(logoThreeDeg + 180);
@@ -72,16 +81,16 @@ function Navbar() {
   };
 
   const handleToggleTheme = () => {
-    if (moonColor === "#333") {
+    if (moonColor === "dodgerblue") {
       setMoonColor("#eee");
       setNavBg("#333");
       setHexColor("dodgerblue");
       setInner(v => v + 180);
       // setLogoTwoDeg(v => v + 360)
     } else {
-      setMoonColor("#333");
-      setNavBg("slategray");
-      setHexColor("aliceblue");
+      setMoonColor("dodgerblue");
+      setNavBg("mintcream");
+      setHexColor("lightgray");
       setInner(v => v - 180);
     }
   };
@@ -101,15 +110,18 @@ function Navbar() {
 
   return (
     <animated.div // CONTAINER
-      style={Object.assign({}, {
-        ...navProps,
-        height: 100,
-        width: deviceWidth
-      })}
+      style={Object.assign(
+        {},
+        {
+          ...navProps,
+          height: 80,
+          width: deviceWidth
+        }
+      )}
     >
       <SwitchIcon // SWITCH
-        height={20}
-        width={20}
+        height={18}
+        width={18}
         dw={deviceWidth}
         iconColor={iconColor}
         click={() => handleChangeLocation(deviceWidth)}
@@ -117,40 +129,47 @@ function Navbar() {
       />
 
       <MoonIcon // MOON
-        height={20}
-        width={20}
+        height={18}
+        width={18}
         dw={deviceWidth}
         iconColor={iconColor}
         click={handleToggleTheme}
       />
 
-      <MenuIcon // MENU
+      <Sputnik // MENU
         burgerProps={burgerProps}
         iconColor={iconColor}
         height={40}
         width={40}
+        dw={deviceWidth}
+        loc={logoLoc}
       />
 
       <animated.div // LOGO
-        style={Object.assign({}, { ...logoProps, top: 25, position: 'absolute' })}
+        style={Object.assign({}, { top: 25, position: "absolute" })}
       >
-        {trail.map(({ opacity }, index) => (
-          <Ovaltine
-            key={index}
-            height={50}
-            width={50}
-            iconColor={iconColor}
-            opacity={opacity}
-            rotation={handleRotation(index)}
-          />
-        ))}
+        <Astronaut
+          height={40}
+          width={40}
+          iconColor={iconColor}
+          // rotation={handleRotation(index)}
+          logoProps={logoProps}
+          // burgerProps={burgerProps}
+          dw={deviceWidth} // 😴😴😴😴😴😴😴😴😴😴😴😴
+          loc={logoLoc}
+        />
 
-        <HexIcon // HEX
+        {/* <HexIcon // HEX
           height={15}
           width={15}
           innerProps={innerProps}
           iconColor={hexColorProps}
-        />
+
+          dw={deviceWidth} // 😴😴😴😴😴😴😴😴😴😴😴
+          loc={logoLoc}
+
+
+        /> */}
       </animated.div>
 
       <div
@@ -167,7 +186,9 @@ function Navbar() {
             top: window.innerHeight - 100
           }}
         >
-          <code>{`v1.0`}</code>
+          <code>
+            {`v1.0`} {deviceWidth} - {logoLoc}{" "}
+          </code>
         </p>
       </div>
     </animated.div>

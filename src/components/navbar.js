@@ -1,112 +1,68 @@
 import React from "react";
 
-import { useSpring, animated, useTrail } from "react-spring";
-import { SwitchIcon, MoonIcon, Astronaut, MenuIcon, Sputnik } from "./icons";
+import { useSpring, animated } from "react-spring";
+import { SwitchIcon, MoonIcon, Astronaut, Satellite } from "./icons";
 
 function Navbar(props) {
-  const { width, height } = props;
+  const { width } = props;
   const [deviceWidth, setWidth] = React.useState(width);
-  const [navBg, setNavBg] = React.useState("mintcream");
+  const [navBg, setNavBg] = React.useState("dodgerblue");
   const [logoLoc, setLogoLoc] = React.useState(20);
-  const [burgerLoc, setBurgerLoc] = React.useState(width - 70);
-  const [burgerX, setBurgerX] = React.useState(1);
   const [switchRotation, setSwitchRotation] = React.useState(1);
-  const [logoOneDeg, setLogoOneDeg] = React.useState(35);
-  const [logoTwoDeg, setLogoTwoDeg] = React.useState(90);
-  const [logoThreeDeg, setLogoThreeDeg] = React.useState(145);
   const [logoAngle, setLogoAngle] = React.useState(0);
-  const [inner, setInner] = React.useState(60);
-  const [moonColor, setMoonColor] = React.useState("dodgerblue");
-  const [hexColor, setHexColor] = React.useState("lightgray");
+  const [moonColor, setMoonColor] = React.useState("mintcream");
 
   const logoProps = useSpring({
     left: logoLoc !== 20 ? deviceWidth - 65 : 20,
-    transform: logoLoc !== 20 ? `rotate(420deg)` : `rotate(0deg)`
+    transform: logoLoc !== 20 ? `rotate(${logoAngle}deg)` : `rotate(0deg)`
   });
   const burgerProps = useSpring({
-    // left: burgerLoc,
     left: logoLoc !== 20 ? 20 : deviceWidth - 65,
-    transform: logoLoc !== 20 ? `rotate(-420deg)` : `rotate(-15deg)`
+    transform: logoLoc !== 20 ? `rotate(${logoAngle}deg)` : `rotate(-15deg)`
   });
   const switchProps = useSpring({
     transform: `rotate(90deg) scaleY(${switchRotation})`
   });
-  // const innerProps = useSpring({ transform: `rotate(${inner}deg)` });
   const iconColor = useSpring({ fill: moonColor });
   const navProps = useSpring({ backgroundColor: navBg });
-  // const hexColorProps = useSpring({ fill: hexColor });
 
-  const logoItems = [Astronaut];
-  const config = { mass: 5, tension: 2000, friction: 200 };
-  const trail = useTrail(logoItems.length, {
-    config,
-    transform: `rotate(180deg)`,
-    opacity: logoOneDeg === 35 ? 1 : 1,
-    from: { opacity: 0, transform: `rotate(0deg)` }
-  });
+ 
 
   React.useEffect(() => {
     function handleWidth() {
       setWidth(window.innerWidth);
-      // handleChangeLocation(width)
     }
     window.addEventListener("resize", handleWidth);
     return () => window.removeEventListener("resize", handleWidth);
   }, []);
 
-  const checkWindowSize = w => {
-    console.log(w);
-  };
+  
 
   const handleChangeLocation = w => {
     if (logoLoc === 20) {
       setLogoLoc(w - 75);
-      setBurgerLoc(25);
-      // setLogoOneDeg(logoOneDeg + 180);
-      // setLogoTwoDeg(logoTwoDeg + 180);
-      // setLogoThreeDeg(logoThreeDeg + 180);
-      setLogoAngle(logoAngle + 360);
+      setLogoAngle(logoAngle + 30);
       setSwitchRotation(-1);
-      setBurgerX(-1);
     } else {
       setLogoLoc(20);
-      setBurgerLoc(0);
-      setLogoOneDeg(logoOneDeg + 180);
-      setLogoTwoDeg(logoTwoDeg + 180);
-      setLogoThreeDeg(logoThreeDeg + 180);
-      setLogoAngle(logoAngle - 360);
+      setLogoAngle(logoAngle - 30);
       setSwitchRotation(1);
-      setBurgerX(1);
     }
   };
 
   const handleToggleTheme = () => {
-    if (moonColor === "dodgerblue") {
+    if (moonColor === "mintcream") {
       setMoonColor("#eee");
       setNavBg("#333");
-      setHexColor("dodgerblue");
-      setInner(v => v + 180);
-      // setLogoTwoDeg(v => v + 360)
+      window.localStorage.setItem('bg', 'black')
     } else {
-      setMoonColor("dodgerblue");
-      setNavBg("mintcream");
-      setHexColor("lightgray");
-      setInner(v => v - 180);
+      setMoonColor("mintcream");
+      setNavBg("dodgerblue");
+      window.localStorage.setItem('bg', 'lightgray')
+      
     }
   };
 
-  const handleRotation = index => {
-    switch (index) {
-      case 0:
-        return `rotate(${logoOneDeg}deg)`;
-      case 1:
-        return `rotate(${logoTwoDeg}deg)`;
-      case 2:
-        return `rotate(${logoThreeDeg}deg)`;
-      default:
-        return 0;
-    }
-  };
 
   return (
     <animated.div // CONTAINER
@@ -114,7 +70,7 @@ function Navbar(props) {
         {},
         {
           ...navProps,
-          height: 80,
+          height: 70,
           width: deviceWidth
         }
       )}
@@ -136,7 +92,7 @@ function Navbar(props) {
         click={handleToggleTheme}
       />
 
-      <Sputnik // MENU
+      <Satellite // MENU
         burgerProps={burgerProps}
         iconColor={iconColor}
         height={40}
@@ -146,7 +102,7 @@ function Navbar(props) {
       />
 
       <animated.div // LOGO
-        style={Object.assign({}, { top: 25, position: "absolute" })}
+        style={Object.assign({}, { position: "absolute" })}
       >
         <Astronaut
           height={40}
@@ -191,6 +147,9 @@ function Navbar(props) {
           </code>
         </p>
       </div>
+
+      
+
     </animated.div>
   );
 }

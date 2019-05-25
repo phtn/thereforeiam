@@ -16,7 +16,7 @@ export const Astronaut = props => {
           {
             ...props.logoProps,
             position: "absolute",
-            top: 3,
+            top: 17,
             cursor: "pointer",
             opacity: props.opacity
             // transform: props.rotation
@@ -54,7 +54,7 @@ export const MoonIcon = props => {
           {
             position: "absolute",
             left: props.dw - 165,
-            top: 39,
+            top: 30,
             cursor: "pointer",
             opacity: 0.7
           }
@@ -84,7 +84,7 @@ export const SwitchIcon = props => {
           {
             position: "absolute",
             left: props.dw - 120,
-            top: 38,
+            top: 29,
             cursor: "pointer",
             transform: "rotate(90deg)",
             opacity: 0.7,
@@ -289,7 +289,7 @@ export const MenuIcon = props => {
   );
 };
 
-export const Sputnik = props => {
+export const Satellite = props => {
   return (
     <>
       <animated.svg
@@ -304,7 +304,7 @@ export const Sputnik = props => {
           {
             ...props.burgerProps,
             position: "absolute",
-            top: 28,
+            top: 18,
             cursor: "pointer"
           }
         )}

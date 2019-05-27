@@ -1,6 +1,12 @@
 import React from 'react';
 import Navbar from './components/navbar'
-// import { observer } from 'mobx'
+
+// eslint-disable-next-line
+import { observer } from 'mobx-react'
+import ViewBoard from './components/view-board';
+
+// console.log(observer)
+
 
 const HEIGHT = window.innerHeight
 const WIDTH = window.innerWidth
@@ -8,7 +14,7 @@ const WIDTH = window.innerWidth
 const styles = {
   container: {
     height: HEIGHT,
-    display: 'flex',
+    // display: 'flex',
     // alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#777'
@@ -32,6 +38,8 @@ function App(){
   return (
     <div style={Object.assign({}, styles.container, {backgroundColor: bg})}>
         <Navbar width={WIDTH} height={HEIGHT} />
+
+        <ViewBoard width={WIDTH} height={HEIGHT} />
     </div>
   );
 }
